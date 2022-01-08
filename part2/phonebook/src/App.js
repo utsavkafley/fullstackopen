@@ -4,6 +4,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [searchString, setSearchString] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -22,41 +23,46 @@ const App = () => {
     }
   };
 
-  const listStyle = {
-    listStyleType: "none",
+  const handleFilterInputChange = (event) => {
+    setSearchString(event.target.value.toLowerCase());
   };
   return (
     <div>
       <h2>Phonebook</h2>
+      filter names with{" "}
+      <input value={searchString} onChange={handleFilterInputChange} />
       <form>
-        <tbody>
-          <tr>
-            <td>
-              <label>name: </label>
-            </td>
-            <td style={{ paddingLeft: ".5rem" }}>
-              <input
-                value={newName}
-                onChange={(event) => {
-                  setNewName(event.target.value);
-                }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>number: </label>
-            </td>
-            <td style={{ paddingLeft: ".5rem" }}>
-              <input
-                value={newNumber}
-                onChange={(event) => {
-                  setNewNumber(event.target.value);
-                }}
-              />
-            </td>
-          </tr>
-        </tbody>
+        <h2>add a new</h2>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <label>name: </label>
+              </td>
+              <td style={{ paddingLeft: ".5rem" }}>
+                <input
+                  value={newName}
+                  onChange={(event) => {
+                    setNewName(event.target.value);
+                  }}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>number: </label>
+              </td>
+              <td style={{ paddingLeft: ".5rem" }}>
+                <input
+                  value={newNumber}
+                  onChange={(event) => {
+                    setNewNumber(event.target.value);
+                  }}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         <div>
           <button type="submit" onClick={addPerson}>
@@ -65,14 +71,20 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <tbody>
-        {persons.map((person) => (
-          <tr key={person.name}>
-            <td>{person.name} </td>
-            <td style={{ paddingLeft: ".5rem" }}>{person.number}</td>
-          </tr>
-        ))}
-      </tbody>
+      <table>
+        <tbody>
+          {persons
+            .filter((person) =>
+              person.name.toLowerCase().includes(searchString)
+            )
+            .map((person) => (
+              <tr key={person.name}>
+                <td>{person.name}</td>
+                <td style={{ paddingLeft: "1rem" }}>{person.number}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   );
 };

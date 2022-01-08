@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -18,73 +21,40 @@ const App = () => {
       };
 
       setPersons(persons.concat(personObject));
+
+      Array.from(document.querySelectorAll("input")).forEach(
+        (input) => (input.value = "")
+      );
+
       setNewName("");
       setNewNumber("");
     }
   };
 
-  const handleFilterInputChange = (event) => {
+  const filterHandler = (event) => {
     setSearchString(event.target.value.toLowerCase());
   };
+
   return (
     <div>
       <h2>Phonebook</h2>
-      filter names with{" "}
-      <input value={searchString} onChange={handleFilterInputChange} />
-      <form>
-        <h2>add a new</h2>
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <label>name: </label>
-              </td>
-              <td style={{ paddingLeft: ".5rem" }}>
-                <input
-                  value={newName}
-                  onChange={(event) => {
-                    setNewName(event.target.value);
-                  }}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>number: </label>
-              </td>
-              <td style={{ paddingLeft: ".5rem" }}>
-                <input
-                  value={newNumber}
-                  onChange={(event) => {
-                    setNewNumber(event.target.value);
-                  }}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <Filter searchString={searchString} filterHandler={filterHandler} />
 
-        <div>
-          <button type="submit" onClick={addPerson}>
-            add
-          </button>
-        </div>
-      </form>
+      <h2>Add a new</h2>
+      <PersonForm
+        name={newName}
+        nameChangeHandler={(event) => {
+          setNewName(event.target.value);
+        }}
+        number={newNumber}
+        numberChangeHandler={(event) => {
+          setNewNumber(event.target.value);
+        }}
+        addPersonHandler={addPerson}
+      />
+
       <h2>Numbers</h2>
-      <table>
-        <tbody>
-          {persons
-            .filter((person) =>
-              person.name.toLowerCase().includes(searchString)
-            )
-            .map((person) => (
-              <tr key={person.name}>
-                <td>{person.name}</td>
-                <td style={{ paddingLeft: "1rem" }}>{person.number}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <Persons persons={persons} searchString={searchString} />
     </div>
   );
 };

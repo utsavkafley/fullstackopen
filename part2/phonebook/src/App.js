@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
-
-  const handleInputChange = (event) => {
-    setNewName(event.target.value);
-  };
+  const [newNumber, setNewNumber] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -16,10 +13,12 @@ const App = () => {
     } else {
       const personObject = {
         name: newName,
+        number: newNumber,
       };
 
       setPersons(persons.concat(personObject));
       setNewName("");
+      setNewNumber("");
     }
   };
 
@@ -30,9 +29,35 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form>
-        <div>
-          name: <input value={newName} onChange={handleInputChange} />
-        </div>
+        <tbody>
+          <tr>
+            <td>
+              <label>name: </label>
+            </td>
+            <td style={{ paddingLeft: ".5rem" }}>
+              <input
+                value={newName}
+                onChange={(event) => {
+                  setNewName(event.target.value);
+                }}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>number: </label>
+            </td>
+            <td style={{ paddingLeft: ".5rem" }}>
+              <input
+                value={newNumber}
+                onChange={(event) => {
+                  setNewNumber(event.target.value);
+                }}
+              />
+            </td>
+          </tr>
+        </tbody>
+
         <div>
           <button type="submit" onClick={addPerson}>
             add
@@ -40,11 +65,14 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person) => (
-        <p style={{ margin: 0 }} key={person.name}>
-          {person.name}
-        </p>
-      ))}
+      <tbody>
+        {persons.map((person) => (
+          <tr key={person.name}>
+            <td>{person.name} </td>
+            <td style={{ paddingLeft: ".5rem" }}>{person.number}</td>
+          </tr>
+        ))}
+      </tbody>
     </div>
   );
 };

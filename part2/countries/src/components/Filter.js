@@ -1,10 +1,10 @@
 import React from "react";
 
-const Filter = ({ filterText, filterChangeHandler }) => {
+const Filter = ({ filterText, handleFilterChange }) => {
   return (
     <>
       find countries{" "}
-      <input type="text" value={filterText} onChange={filterChangeHandler} />
+      <input type="text" value={filterText} onChange={handleFilterChange} />
     </>
   );
 };

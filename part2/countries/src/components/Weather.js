@@ -38,14 +38,17 @@ const Weather = ({ country }) => {
 
   if (typeof weatherData !== "undefined") {
     const index = Math.round(weatherData.wind.deg / 22.5 + 1);
-
+    console.log();
     return (
       <div>
         <h2>Weather in {weatherData.name}</h2>
         <p>
           <strong>temperature: </strong> {weatherData.main.temp} Fahrenheit
         </p>
-        <img src="" alt="" />
+        <img
+          src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+          alt="Weather Icon"
+        />
         <p>
           <strong>wind: </strong>
           {weatherData.wind.speed} mph direction {windDirections[index]}

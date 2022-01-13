@@ -1,7 +1,8 @@
 import React from "react";
 
+import Weather from "./Weather";
+
 const Country = ({ country }) => {
-  console.log(country);
   return (
     <>
       <h1>{country.name.common}</h1>
@@ -9,13 +10,15 @@ const Country = ({ country }) => {
         capital: {country.capital} <br />
         population: {country.population}
       </p>
-      <h2>languages</h2>
+      <h2>Spoken languages</h2>
       <ul>
         {Object.values(country.languages).map((language) => (
           <li key={language}>{language}</li>
         ))}
       </ul>
       <img src={country.flags.png} alt="" height={100} />
+
+      <Weather country={country} />
     </>
   );
 };

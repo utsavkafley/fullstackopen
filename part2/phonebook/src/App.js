@@ -43,12 +43,12 @@ const App = () => {
 
   const removePerson = (id) => {
     window.alert("Are you sure you want to remove this entry from phonebook?");
-    phonebookService.remove(id).then((deletedEntry) => {
-      var otherPersons = persons.filter(
-        (person) => person.id !== deletedEntry.id
-      );
-      console.log();
-      setPersons(otherPersons);
+    phonebookService.remove(id).then(() => {
+      let newPersons = persons.filter(
+        (person) => person.id !== id
+      )
+
+      setPersons(newPersons);
     });
   };
 

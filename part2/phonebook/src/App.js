@@ -19,9 +19,22 @@ const App = () => {
     event.preventDefault();
 
     if (persons.some((person) => person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`);
+      window.alert(`${newName} is already added to phonebook, replace the old number with a new one?`);
+
+      const id = persons.find(person => person.name === newName).id
+      const personObject = {
+        name: newName,
+        number: newNumber,
+      };
+      phonebookService.update(id, personObject).then(response => {
+        let newPersons = persons.filter(
+          (person) => person.id !== id
+        )
+        setPersons(newPersons.concat(response))
+      })
+
     } else if (!newName || !newNumber) {
-      window.alert("Pkease fill out all fields");
+      window.alert("Please fill out all fields");
     } else {
       const personObject = {
         name: newName,

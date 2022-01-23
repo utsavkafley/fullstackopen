@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import phonebookService from "./services/phonebook";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,9 +12,7 @@ const App = () => {
   const [searchString, setSearchString] = useState("");
 
   useEffect(() => {
-    const eventHandler = (response) => setPersons(response.data);
-
-    axios.get("http://localhost:3001/persons").then(eventHandler);
+    phonebookService.getAll().then((response) => setPersons(response));
   }, []);
 
   const addPerson = (event) => {
@@ -22,13 +20,17 @@ const App = () => {
 
     if (persons.some((person) => person.name === newName)) {
       window.alert(`${newName} is already added to phonebook`);
+    } else if (!newName || !newNumber) {
+      window.alert("Pkease fill out all fields");
     } else {
       const personObject = {
         name: newName,
         number: newNumber,
       };
 
-      setPersons(persons.concat(personObject));
+      phonebookService
+        .create(personObject)
+        .then((response) => setPersons(persons.concat(response)));
 
       Array.from(document.querySelectorAll("input")).forEach(
         (input) => (input.value = "")
@@ -37,6 +39,17 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     }
+  };
+
+  const removePerson = (id) => {
+    window.alert("Are you sure you want to remove this entry from phonebook?");
+    phonebookService.remove(id).then((deletedEntry) => {
+      var otherPersons = persons.filter(
+        (person) => person.id !== deletedEntry.id
+      );
+      console.log();
+      setPersons(otherPersons);
+    });
   };
 
   const filterHandler = (event) => {
@@ -62,7 +75,11 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={persons} searchString={searchString} />
+      <Persons
+        persons={persons}
+        searchString={searchString}
+        deleteButtonHandler={removePerson}
+      />
     </div>
   );
 };

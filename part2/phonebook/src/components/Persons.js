@@ -1,7 +1,7 @@
 import React from "react";
 import Person from "./Person";
 
-const Persons = ({ persons, searchString }) => {
+const Persons = ({ persons, searchString, deleteButtonHandler }) => {
   return (
     <>
       {" "}
@@ -12,7 +12,11 @@ const Persons = ({ persons, searchString }) => {
               person.name.toLowerCase().includes(searchString)
             )
             .map((person) => (
-              <Person key={person.name} person={person} />
+              <Person
+                key={person.id}
+                person={person}
+                deleteButtonHandler={deleteButtonHandler}
+              />
             ))}
         </tbody>
       </table>

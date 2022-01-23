@@ -1,0 +1,23 @@
+.container {
+  width: 640px;
+  background-color: #deeaee;
+  align-content: center;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 2px;
+  box-shadow: 1px 1px 3px grey;
+}
+
+.notification,
+.error {
+  color: #deeaee;
+  background-color: #5c94f0;
+  padding: 4px;
+  margin: 0px auto;
+  border: 2px solid rgb(171, 188, 236);
+  border-radius: 3px;
+}
+
+.error {
+  background-color: #b63a3a;
+}
